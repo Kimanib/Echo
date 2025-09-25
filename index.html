@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structured 2D Echo Report</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>BETA CARE CARDIOLOGY SERVICES</h1>
+        <h2>Structured 2D Echocardiography Report</h2>
+
+        <section id="patient-info" class="card">
+            <h3>PATIENT INFORMATION</h3>
+            <div class="form-group">
+                <label for="pName">Patient Name:</label>
+                <input type="text" id="pName" required>
+            </div>
+            <div class="form-group">
+                <label for="pDOB">Date of Birth:</label>
+                <input type="date" id="pDOB" required>
+            </div>
+            <div class="form-group">
+                <label for="pStudyDate">Date of Study:</label>
+                <input type="date" id="pStudyDate" required>
+            </div>
+            <div class="form-group">
+                <label for="pPerformer">Performed By:</label>
+                <input type="text" id="pPerformer" required>
+            </div>
+            <div class="form-group">
+                <label for="pIndication">Clinical Indication:</label>
+                <textarea id="pIndication" rows="3" required></textarea>
+            </div>
+        </section>
+
+        <section id="read-section" class="card">
+            <h3>FINDINGS (READ SECTION)</h3>
+            <div class="search-bar">
+                <input type="text" id="finding-search" placeholder="Search findings...">
+                <button onclick="selectAllNormal()">Bulk Select Normal Findings</button>
+            </div>
+
+            <div id="findings-container">
+                </div>
+        </section>
+
+        <section id="summary-section" class="card">
+            <h3>SUMMARY SELECTION</h3>
+            <div id="summary-findings-list">
+                <p>Select findings in the section above to include them in the summary.</p>
+            </div>
+            <textarea id="summary-text" rows="5" placeholder="Manually edit or review the auto-generated summary..."></textarea>
+        </section>
+
+        <section id="conclusion-recommendations" class="card">
+            <h3>CLINICAL INTERPRETATION & RECOMMENDATIONS</h3>
+            <div class="form-group">
+                <label for="conclusion-text">CONCLUSION:</label>
+                <textarea id="conclusion-text" rows="5" placeholder="Enter clinical interpretation..."></textarea>
+                <small id="char-limit-indicator">Max 2000 characters</small>
+            </div>
+            <div class="form-group">
+                <label for="recommendations-text">RECOMMENDATIONS:</label>
+                <select onchange="addRecommendationTemplate(this.value)">
+                    <option value="">Use Template...</option>
+                    <option value="Routine follow-up in 12 months.">Routine follow-up in 12 months</option>
+                    <option value="Cardiology consultation recommended for further management.">Cardiology consultation recommended</option>
+                    <option value="Repeat echocardiogram in 6 months for surveillance.">Repeat echocardiogram in 6 months</option>
+                    <option value="Clinical correlation recommended with patient symptoms.">Clinical correlation recommended</option>
+                </select>
+                <textarea id="recommendations-text" rows="5" placeholder="Enter follow-up recommendations..."></textarea>
+            </div>
+        </section>
+
+        <section id="output-section" class="card">
+            <h3>FINAL REPORT OUTPUT</h3>
+            <button onclick="generateReport()">Generate Report</button>
+            <button onclick="copyReport()" id="copy-btn" disabled>Copy to Clipboard</button>
+            <button onclick="window.print()">Print Report</button>
+            <pre id="final-report-output"></pre>
+        </section>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h4>Reference Ranges (Adult)</h4>
+            <p><strong>LVEF:</strong> >50% (Normal)</p>
+            <p><strong>LA Volume Index:</strong> $\le 34$ $\text{mL}/\text{m}^2$ (Normal)</p>
+            <p><strong>E/A Ratio:</strong> $0.8-2.0$ (Normal Diastolic)</p>
+            <p><strong>TAPSE:</strong> $\ge 1.7$ $\text{cm}$ (Normal RV)</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Auto-populate study date with today's date
+        document.getElementById('pStudyDate').valueAsDate = new Date();
+    </script>
+</body>
+</html>
